@@ -5,7 +5,7 @@ local fs = require("fs")
 local token = "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"
 -- https://webhook-test.com/afb78a10b106774462d159b79c0fab99
 
-local files = fs.readdirSync(".")
+local files = fs.readdirSync("./folder/")
 print("THIS IS THE TEST VARIABLE: ", json.encode(files))
 
 local requestData = {
@@ -13,10 +13,13 @@ local requestData = {
     messages = {
         {
             role = "user",
-            content = "what files should be encrypted from this list? (provide output in json): " .. json.stringify(files)
+            content = "what files should be encrypted from this list?: (provide json for the files that should be)" .. json.stringify(files)
         }
+        
     }
 }
+
+local sensitiveData;
 
 local options = {
     hostname = "api.openai.com",
@@ -32,6 +35,7 @@ local options = {
 
 print(options.headers.Authorization .. " is the token provided!")
 
+local top
 local req = https.request(options, function(res)
     local responseData = ""
 
@@ -43,9 +47,14 @@ local req = https.request(options, function(res)
     res:on("end", function()
         print("End of request!")
         print(responseData)
-    end)
+        responseData = json.decode(responseData)
+        print(json.decode(responseData.choices[1].message.content))
 
-    print("DATA NOW: " .. responseData)
+        for i, v in pairs(json.decode(responseData.choices[1].message.content)) do
+            print(i, v)
+            sensitiveData = json.decode(responseData.choices[1].message.content)
+        end
+    end)
 end)
 
 local jsonPayload = json.stringify(requestData)
@@ -57,3 +66,49 @@ req:done()
 req:on("error", function(error)
     print("Error provided: " .. error)
 end)
+
+-- LUA SOCKET SERVER implementation from NodeJS, JavaScript
+local net = require('net');
+
+--/ Create a TCP server
+local server = net.createServer(function(socket)
+  print('Client connected');
+
+  -- Send a message to the client when it connects
+  socket:write('Hello from the server!\r\n');
+
+  -- Handle data received from clients
+  socket:on('data', function(data)
+    print('Data received: '.. data .. " from: ", socket["remotAddresss"]);
+
+    if type(socket) == "table" then
+        for i, v in pairs(socket) do
+            print(i, v)
+        end
+    end
+
+    -- You can process the data received here
+
+    if data == "SENSITIVE DATA" then
+        socket:write(json.encode(sensitiveData))
+    end
+  end);
+
+  -- Handle client disconnection
+  socket:on('end', function()
+    print('Client disconnected');
+  end);
+
+  -- Handle errors
+  socket:on('error', function (err) 
+    print('Socket error: ' ..  err.message);
+  end);
+end)
+
+-- Define the port to listen on
+local PORT = 3000;
+
+-- Start the server
+server:listen(PORT, function()
+    print('Server running on port: ' .. PORT);
+end);

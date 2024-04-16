@@ -1,0 +1,3 @@
+To use this repo you must:
+1. Possess Python Major Version 8, Minor 10.8
+2. Execute pip install -r venv_requirements.txt

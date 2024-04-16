@@ -1,0 +1,6 @@
+# Only one file is included as a proof of concept!
+
+[directories]
+[directories.fileInfo]
+"passwords.txt".encrypted = false
+"passwords.txt".length = 0
