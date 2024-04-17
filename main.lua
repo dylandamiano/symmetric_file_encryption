@@ -13,9 +13,8 @@ local requestData = {
     messages = {
         {
             role = "user",
-            content = "what files should be encrypted from this list?: (provide json for the files that should be)" .. json.stringify(files)
-        }
-        
+            content = "what files should be encrypted from this list?: (provide json for the files that should be in the format similar to ['filename1', 'filename2', ... 'filenameN'])" .. json.stringify(files)
+        }   
     }
 }
 

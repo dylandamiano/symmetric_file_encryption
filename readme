@@ -1,3 +1,5 @@
-To use this repo you must:
+To use this repo you must (in order):
 1. Possess Python Major Version 8, Minor 10.8
-2. Execute pip install -r venv_requirements.txt
+2. py -m venv venv 
+3. Execute: venv/Scripts/activate.ps1
+4. Execute pip install -r venv_requirements.txt
