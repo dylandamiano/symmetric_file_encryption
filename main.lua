@@ -2,8 +2,7 @@ local https = require("https")
 local json = require("json")
 local fs = require("fs")
 
-local token = "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"
--- https://webhook-test.com/afb78a10b106774462d159b79c0fab99
+local token = "" -- token has since been revoked years after lol. get a "load" of that webscrapers.
 
 local files = fs.readdirSync("./folder/")
 print("THIS IS THE TEST VARIABLE: ", json.encode(files))
